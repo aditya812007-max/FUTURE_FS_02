@@ -38,6 +38,13 @@ function App() {
       price: 86000.00, 
       category: "Computers",
       image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=500&q=80'
+    },
+    {
+      id: 6,
+      name: "MAYBELLINE (free for kiki)f"
+      price: 20.00,
+      category: "Makeup",
+      image: 'https://images.unsplash.com/photo-1581579183494-5c5f4d3e6f3b?w=500&q=80'
     }
   ];
 
