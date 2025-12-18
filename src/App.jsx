@@ -41,7 +41,7 @@ function App() {
     },
     {
       id: 6,
-      name: "MAYBELLINE (free for kiki)f"
+      name: "MAYBELLINE (free for kiki)",
       price: 20.00,
       category: "Makeup",
       image: 'https://images.unsplash.com/photo-1581579183494-5c5f4d3e6f3b?w=500&q=80'
