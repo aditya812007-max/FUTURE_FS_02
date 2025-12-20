@@ -1,81 +1,41 @@
-import {useState} from 'react'
-import './App.css';
+import { useState } from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
+import './App.css'
 import LiquidEther from './components/LiquidEther'
+import ProductPage from './components/ProductPage'
+import { products } from './data'
+import CheckoutModal from './components/CheckoutModal' // Import Modal
+import { motion } from 'framer-motion' // Import Animation Library
+import { Toaster } from 'react-hot-toast' // Import Toast Library
 
 function App() {
-  const products = [
-    { 
-      id: 1, 
-      name: 'Noise Earbuds', 
-      price: 49.99, 
-      category: 'Audio',
-      image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80' 
-    },
-    { 
-      id: 2, 
-      name: "Noise Smart Watch", 
-      price: 99.99, 
-      category: "Wearables",
-      image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&q=80'
-    },
-    { 
-      id: 3, 
-      name: "Ant Esports Gaming Mouse", 
-      price: 29.99, 
-      category: "Gaming",
-      image: 'https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&q=80'
-    },
-    { 
-      id: 4, 
-      name: "Mechanical Keyboard", 
-      price: 79.99, 
-      category: "Gaming",
-      image: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=500&q=80'
-    },
-    { 
-      id: 5, 
-      name: "Acer Nitro V16 Laptop", 
-      price: 86000.00, 
-      category: "Computers",
-      image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=500&q=80'
-    },
-    {
-      id: 6,
-      name: "MAYBELLINE (free for kiki)",
-      price: 20.00,
-      category: "Makeup",
-      image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=500&q=80'
-    }
-  ];
 
+  // FIX 1: Initialize as empty string "", NOT false
+  const [searchTerm, setSearchTerm] = useState(""); 
+  
   const [cart, setCart] = useState([]);
-
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
+  // FIX 2: Add the missing state for the Checkout Modal
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   const addToCart = (product) => {
     setCart([...cart, product]);
-    setIsCartOpen (true);
+    setIsCartOpen(true);
   };
 
   const clearCart = () => {
     setCart([]);
   };
 
-  const total = cart.reduce((sum,item) => sum + item.price, 0);
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <>
-      
-      <div style={{ 
-        position: 'fixed', 
-        top: 0, 
-        left: 0, 
-        width: '100%', 
-        height: '100%', 
-        zIndex: -1, 
-        pointerEvents: 'none'
-      }}>
-        
+      {/* FIX 3: Add Toaster here so notifications work */}
+      <Toaster position="top-center" />
+
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1, pointerEvents: 'none' }}>
         <LiquidEther 
           colors={["#3044e8", "#6a8ce6", "#d5d8e6"]}
           mouseForce={20}
@@ -83,28 +43,70 @@ function App() {
           viscous={30}
         />
       </div>
-      
+
       <nav className='navbar'>
-        <h1>Aditya's Store</h1>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+            <h1>Aditya's Store</h1>
+        </Link>
         <button className='cart-icon-btn' onClick={() => setIsCartOpen(!isCartOpen)}>
           🛒 Cart ({cart.length})
         </button>
       </nav>
-      
-      <div className='product-grid'>
-          {products.map((product) => (
-            <div key={product.id} className='product-card'>
-              <img src={product.image} alt={product.name} className='product-img'/>
-              <h3>{product.name}</h3>
-              <p>Price: ₹{product.price}</p>
-              <p className='category'>{product.category}</p>
-              <button onClick={() => addToCart(product)}>Add to Cart 🛒</button>
-            </div>
-          ))}
+
+      <Routes>
+        <Route path="/" element={
+          <> 
+          <div className='search-container' style={{marginBottom:'20px', textAlign:"center"}}>
+            <input
+            type="text"
+            placeholder='Search For Product'
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              padding: '12px 20px',
+              width: '100%',
+              maxWidth: '400px',
+              borderRadius: '25px',
+              fontSize: '1rem'
+            }}
+            />
           </div>
+          <div className='product-grid'>
+            {products
+              .filter((val) => {
+                if (searchTerm === "") return val;
+                else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) return val;
+              })
+              .map((product) => (
+              
+              // FIX 4: Changed <div> to <motion.div> and fixed syntax errors
+              <motion.div 
+                key={product.id} 
+                className='product-card'
+                initial={{ opacity: 0, scale: 0.9, y: 20 }} 
+                animate={{ opacity: 1, scale: 1, y: 0 }}  
+                transition={{ duration: 0.4 }}             
+                whileHover={{ scale: 1.05 }}
+              >                                
+                <Link to={`/product/${product.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
+                    <img src={product.image} alt={product.name} className='product-img'/>
+                    <h3>{product.name}</h3>
+                </Link>
+                
+                <p>Price: ₹{product.price}</p>
+                <p className='category'>{product.category}</p>
+                
+                <button onClick={() => addToCart(product)}>Add to Cart 🛒</button>
+              </motion.div>
+            ))}
+          </div>
+          </>
+        } />
+
+        <Route path="/product/:id" element={ <ProductPage addToCart={addToCart} /> } />
+
+      </Routes>
 
       <div className={`cart-sidebar ${isCartOpen ? 'open' : ''}`}>
-        
         <div className="cart-header">
           <h2>Your Cart ({cart.length})</h2>
           <button className="close-btn" onClick={() => setIsCartOpen(false)}>❌</button>
@@ -122,20 +124,31 @@ function App() {
                 </li>
               ))}
             </ul>
-            
             <div className="cart-footer">
               <h3>Total: ₹{total.toFixed(2)}</h3>
-              <button className="checkout-btn" onClick={() => alert("Ullu banaya bada maza aaya :P")}>
+              
+              {/* FIX 5: Wire up the button to open the modal (set true, not false) */}
+              <button className="checkout-btn" onClick={() => setIsCheckoutOpen(true)}>
                 Checkout Now
               </button>
+              
               <button className="clear-btn" onClick={clearCart}>
                 Clear Cart 🗑️
               </button>
             </div>
           </>
         )}
-      </div>       
+      </div>
+
+      {/* FIX 6: Render the Modal at the bottom */}
+      {isCheckoutOpen && (
+        <CheckoutModal 
+          close={() => setIsCheckoutOpen(false)} 
+          clearCart={clearCart} 
+        />
+      )}
     </>
   )
-  };
+}
+
 export default App;
