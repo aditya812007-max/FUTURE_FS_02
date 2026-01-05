@@ -1,16 +1,40 @@
-# React + Vite
+# 🛒 E-Commerce Frontend Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a modern, responsive E-commerce interface built as **Task 2** of my Internship at FUTURE INTERNS. It focuses on the frontend logic of browsing products, filtering categories, and managing a shopping cart.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo : https://adityasstore.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 💻 Tech Stack
+* **React.js / Next.js:** Component-based UI architecture.
+* **JavaScript (ES6+):** State management and logic.
+* **Fake Store API:** (Optional - remove if you used hardcoded data) Used for fetching realistic product data.
 
-## React Compiler
+## ✨ Key Features
+* **Dynamic Product Grid:** Fetches and displays products with images, titles, and prices.
+* **Category Filtering:** Users can filter products by category (Electronics, Clothing, etc.).
+* **Shopping Cart UI:** Add/Remove items from the cart with dynamic price calculation.
+* **Product Details Page:** A dedicated view for individual product information.
+* **Responsive Layout:** optimized for mobile shopping.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ How to Run Locally
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/aditya812007-max/ecommerce-task.git](https://github.com/aditya812007-max/ecommerce-task.git)
+    ```
+2.  Navigate to the folder:
+    ```bash
+    cd ecommerce-task
+    ```
+3.  Install dependencies:
+    ```bash
+    npm install
+    ```
+4.  Start the development server:
+    ```bash
+    npm run dev
+    ```
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🔮 Future Improvements
+* Integration with a real database (Node.js/MongoDB).
+* User Authentication (Login/Signup).
+* Payment Gateway Integration.
